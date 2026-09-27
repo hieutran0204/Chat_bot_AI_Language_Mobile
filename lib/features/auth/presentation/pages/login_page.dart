@@ -1,5 +1,5 @@
 // name: login_page.dart
-// description: Login screen with email/username + password fields.
+// description: Login screen with email + password fields matching FastAPI schema.
 //              Connects to AuthCubit and redirects on AuthAuthenticated.
 
 import 'package:flutter/material.dart';
@@ -20,12 +20,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey       = GlobalKey<FormState>();
-  final _usernameCtrl  = TextEditingController();
+  final _emailCtrl     = TextEditingController();
   final _passwordCtrl  = TextEditingController();
 
   @override
   void dispose() {
-    _usernameCtrl.dispose();
+    _emailCtrl.dispose();
     _passwordCtrl.dispose();
     super.dispose();
   }
@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   void _submit() {
     if (!_formKey.currentState!.validate()) return;
     context.read<AuthCubit>().login(
-          username: _usernameCtrl.text.trim(),
+          email: _emailCtrl.text.trim(),
           password: _passwordCtrl.text,
         );
   }
@@ -115,12 +115,16 @@ class _LoginPageState extends State<LoginPage> {
 
                         // ── Form Input Fields ────────────────
                         AuthTextField(
-                          label: 'Username or Email',
-                          hint: 'your_username',
-                          controller: _usernameCtrl,
+                          label: 'Email',
+                          hint: 'you@example.com',
+                          controller: _emailCtrl,
                           keyboardType: TextInputType.emailAddress,
-                          validator: (v) =>
-                              (v == null || v.trim().isEmpty) ? 'Required' : null,
+                          validator: (v) {
+                            if (v == null || v.trim().isEmpty) return 'Required';
+                            final emailReg = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,}$');
+                            if (!emailReg.hasMatch(v.trim())) return 'Invalid email';
+                            return null;
+                          },
                         ),
                         SizedBox(height: context.h(18)),
                         AuthTextField(
@@ -130,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                           isPassword: true,
                           textInputAction: TextInputAction.done,
                           validator: (v) =>
-                              (v == null || v.length < 6) ? 'Min 6 characters' : null,
+                              (v == null || v.length < 8) ? 'Min 8 characters' : null,
                         ),
                         SizedBox(height: context.h(28)),
 

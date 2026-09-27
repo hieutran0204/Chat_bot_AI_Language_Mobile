@@ -16,7 +16,7 @@ abstract interface class AuthRepository {
 
   /// Logs in and returns the session entity.
   Future<Either<Failure, UserEntity>> login({
-    required String username,
+    required String email,
     required String password,
   });
 

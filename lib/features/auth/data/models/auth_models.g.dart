@@ -24,24 +24,23 @@ Map<String, dynamic> _$$RegisterRequestImplToJson(
 
 _$LoginRequestImpl _$$LoginRequestImplFromJson(Map<String, dynamic> json) =>
     _$LoginRequestImpl(
-      username: json['username'] as String,
+      email: json['email'] as String,
       password: json['password'] as String,
     );
 
 Map<String, dynamic> _$$LoginRequestImplToJson(_$LoginRequestImpl instance) =>
-    <String, dynamic>{
-      'username': instance.username,
-      'password': instance.password,
-    };
+    <String, dynamic>{'email': instance.email, 'password': instance.password};
 
 _$AuthResponseImpl _$$AuthResponseImplFromJson(Map<String, dynamic> json) =>
     _$AuthResponseImpl(
       accessToken: json['accessToken'] as String,
+      refreshToken: json['refreshToken'] as String?,
       tokenType: json['tokenType'] as String? ?? 'bearer',
     );
 
 Map<String, dynamic> _$$AuthResponseImplToJson(_$AuthResponseImpl instance) =>
     <String, dynamic>{
       'accessToken': instance.accessToken,
+      'refreshToken': instance.refreshToken,
       'tokenType': instance.tokenType,
     };

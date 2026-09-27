@@ -221,8 +221,7 @@ LoginRequest _$LoginRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$LoginRequest {
-  String get username =>
-      throw _privateConstructorUsedError; // BE uses 'username' field (can be email)
+  String get email => throw _privateConstructorUsedError;
   String get password => throw _privateConstructorUsedError;
 
   /// Serializes this LoginRequest to a JSON map.
@@ -242,7 +241,7 @@ abstract class $LoginRequestCopyWith<$Res> {
     $Res Function(LoginRequest) then,
   ) = _$LoginRequestCopyWithImpl<$Res, LoginRequest>;
   @useResult
-  $Res call({String username, String password});
+  $Res call({String email, String password});
 }
 
 /// @nodoc
@@ -259,12 +258,12 @@ class _$LoginRequestCopyWithImpl<$Res, $Val extends LoginRequest>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? username = null, Object? password = null}) {
+  $Res call({Object? email = null, Object? password = null}) {
     return _then(
       _value.copyWith(
-            username: null == username
-                ? _value.username
-                : username // ignore: cast_nullable_to_non_nullable
+            email: null == email
+                ? _value.email
+                : email // ignore: cast_nullable_to_non_nullable
                       as String,
             password: null == password
                 ? _value.password
@@ -285,7 +284,7 @@ abstract class _$$LoginRequestImplCopyWith<$Res>
   ) = __$$LoginRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String username, String password});
+  $Res call({String email, String password});
 }
 
 /// @nodoc
@@ -301,12 +300,12 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? username = null, Object? password = null}) {
+  $Res call({Object? email = null, Object? password = null}) {
     return _then(
       _$LoginRequestImpl(
-        username: null == username
-            ? _value.username
-            : username // ignore: cast_nullable_to_non_nullable
+        email: null == email
+            ? _value.email
+            : email // ignore: cast_nullable_to_non_nullable
                   as String,
         password: null == password
             ? _value.password
@@ -320,20 +319,19 @@ class __$$LoginRequestImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$LoginRequestImpl implements _LoginRequest {
-  const _$LoginRequestImpl({required this.username, required this.password});
+  const _$LoginRequestImpl({required this.email, required this.password});
 
   factory _$LoginRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$LoginRequestImplFromJson(json);
 
   @override
-  final String username;
-  // BE uses 'username' field (can be email)
+  final String email;
   @override
   final String password;
 
   @override
   String toString() {
-    return 'LoginRequest(username: $username, password: $password)';
+    return 'LoginRequest(email: $email, password: $password)';
   }
 
   @override
@@ -341,15 +339,14 @@ class _$LoginRequestImpl implements _LoginRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoginRequestImpl &&
-            (identical(other.username, username) ||
-                other.username == username) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, username, password);
+  int get hashCode => Object.hash(runtimeType, email, password);
 
   /// Create a copy of LoginRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -367,7 +364,7 @@ class _$LoginRequestImpl implements _LoginRequest {
 
 abstract class _LoginRequest implements LoginRequest {
   const factory _LoginRequest({
-    required final String username,
+    required final String email,
     required final String password,
   }) = _$LoginRequestImpl;
 
@@ -375,7 +372,7 @@ abstract class _LoginRequest implements LoginRequest {
       _$LoginRequestImpl.fromJson;
 
   @override
-  String get username; // BE uses 'username' field (can be email)
+  String get email;
   @override
   String get password;
 
@@ -394,6 +391,7 @@ AuthResponse _$AuthResponseFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$AuthResponse {
   String get accessToken => throw _privateConstructorUsedError;
+  String? get refreshToken => throw _privateConstructorUsedError;
   String get tokenType => throw _privateConstructorUsedError;
 
   /// Serializes this AuthResponse to a JSON map.
@@ -413,7 +411,7 @@ abstract class $AuthResponseCopyWith<$Res> {
     $Res Function(AuthResponse) then,
   ) = _$AuthResponseCopyWithImpl<$Res, AuthResponse>;
   @useResult
-  $Res call({String accessToken, String tokenType});
+  $Res call({String accessToken, String? refreshToken, String tokenType});
 }
 
 /// @nodoc
@@ -430,13 +428,21 @@ class _$AuthResponseCopyWithImpl<$Res, $Val extends AuthResponse>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? accessToken = null, Object? tokenType = null}) {
+  $Res call({
+    Object? accessToken = null,
+    Object? refreshToken = freezed,
+    Object? tokenType = null,
+  }) {
     return _then(
       _value.copyWith(
             accessToken: null == accessToken
                 ? _value.accessToken
                 : accessToken // ignore: cast_nullable_to_non_nullable
                       as String,
+            refreshToken: freezed == refreshToken
+                ? _value.refreshToken
+                : refreshToken // ignore: cast_nullable_to_non_nullable
+                      as String?,
             tokenType: null == tokenType
                 ? _value.tokenType
                 : tokenType // ignore: cast_nullable_to_non_nullable
@@ -456,7 +462,7 @@ abstract class _$$AuthResponseImplCopyWith<$Res>
   ) = __$$AuthResponseImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String accessToken, String tokenType});
+  $Res call({String accessToken, String? refreshToken, String tokenType});
 }
 
 /// @nodoc
@@ -472,13 +478,21 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? accessToken = null, Object? tokenType = null}) {
+  $Res call({
+    Object? accessToken = null,
+    Object? refreshToken = freezed,
+    Object? tokenType = null,
+  }) {
     return _then(
       _$AuthResponseImpl(
         accessToken: null == accessToken
             ? _value.accessToken
             : accessToken // ignore: cast_nullable_to_non_nullable
                   as String,
+        refreshToken: freezed == refreshToken
+            ? _value.refreshToken
+            : refreshToken // ignore: cast_nullable_to_non_nullable
+                  as String?,
         tokenType: null == tokenType
             ? _value.tokenType
             : tokenType // ignore: cast_nullable_to_non_nullable
@@ -493,6 +507,7 @@ class __$$AuthResponseImplCopyWithImpl<$Res>
 class _$AuthResponseImpl implements _AuthResponse {
   const _$AuthResponseImpl({
     required this.accessToken,
+    this.refreshToken,
     this.tokenType = 'bearer',
   });
 
@@ -502,12 +517,14 @@ class _$AuthResponseImpl implements _AuthResponse {
   @override
   final String accessToken;
   @override
+  final String? refreshToken;
+  @override
   @JsonKey()
   final String tokenType;
 
   @override
   String toString() {
-    return 'AuthResponse(accessToken: $accessToken, tokenType: $tokenType)';
+    return 'AuthResponse(accessToken: $accessToken, refreshToken: $refreshToken, tokenType: $tokenType)';
   }
 
   @override
@@ -517,13 +534,16 @@ class _$AuthResponseImpl implements _AuthResponse {
             other is _$AuthResponseImpl &&
             (identical(other.accessToken, accessToken) ||
                 other.accessToken == accessToken) &&
+            (identical(other.refreshToken, refreshToken) ||
+                other.refreshToken == refreshToken) &&
             (identical(other.tokenType, tokenType) ||
                 other.tokenType == tokenType));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, accessToken, tokenType);
+  int get hashCode =>
+      Object.hash(runtimeType, accessToken, refreshToken, tokenType);
 
   /// Create a copy of AuthResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -542,6 +562,7 @@ class _$AuthResponseImpl implements _AuthResponse {
 abstract class _AuthResponse implements AuthResponse {
   const factory _AuthResponse({
     required final String accessToken,
+    final String? refreshToken,
     final String tokenType,
   }) = _$AuthResponseImpl;
 
@@ -550,6 +571,8 @@ abstract class _AuthResponse implements AuthResponse {
 
   @override
   String get accessToken;
+  @override
+  String? get refreshToken;
   @override
   String get tokenType;
 

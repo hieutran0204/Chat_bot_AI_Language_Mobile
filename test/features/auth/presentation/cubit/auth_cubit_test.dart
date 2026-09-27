@@ -23,10 +23,14 @@ void main() {
   late MockRegisterUseCase mockRegisterUseCase;
   late MockAuthRepository mockAuthRepository;
 
-  const testUser = UserEntity(accessToken: 'token_123', tokenType: 'bearer');
+  const testUser = UserEntity(
+    accessToken: 'token_123',
+    refreshToken: 'refresh_123',
+    tokenType: 'bearer',
+  );
 
   setUpAll(() {
-    registerFallbackValue(const LoginParams(username: '', password: ''));
+    registerFallbackValue(const LoginParams(email: '', password: ''));
     registerFallbackValue(const RegisterParams(email: '', username: '', password: ''));
   });
 
@@ -88,7 +92,7 @@ void main() {
             .thenAnswer((_) async => const Right(testUser));
         return cubit;
       },
-      act: (cubit) => cubit.login(username: 'test', password: 'password123'),
+      act: (cubit) => cubit.login(email: 'test@example.com', password: 'password123'),
       expect: () => [
         const AuthLoading(),
         const AuthAuthenticated(testUser),
@@ -102,7 +106,7 @@ void main() {
             .thenAnswer((_) async => const Left(AuthFailure('Invalid credentials')));
         return cubit;
       },
-      act: (cubit) => cubit.login(username: 'test', password: 'wrongpassword'),
+      act: (cubit) => cubit.login(email: 'test@example.com', password: 'wrongpassword'),
       expect: () => [
         const AuthLoading(),
         const AuthError('Invalid credentials'),

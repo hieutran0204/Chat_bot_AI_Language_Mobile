@@ -15,14 +15,14 @@ class LoginUseCase {
   /// Params for the login use case.
   Future<Either<Failure, UserEntity>> call(LoginParams params) {
     return _repository.login(
-      username: params.username,
+      email: params.email,
       password: params.password,
     );
   }
 }
 
 class LoginParams {
-  final String username;
+  final String email;
   final String password;
-  const LoginParams({required this.username, required this.password});
+  const LoginParams({required this.email, required this.password});
 }

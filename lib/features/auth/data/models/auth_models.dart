@@ -22,12 +22,12 @@ class RegisterRequest with _$RegisterRequest {
 }
 
 // ── POST /api/v1/auth/login ───────────────────────────────
-// FastAPI OAuth2PasswordRequestForm uses form fields
+// FastAPI expects JSON body with email and password
 
 @freezed
 class LoginRequest with _$LoginRequest {
   const factory LoginRequest({
-    required String username, // BE uses 'username' field (can be email)
+    required String email,
     required String password,
   }) = _LoginRequest;
 
@@ -35,12 +35,13 @@ class LoginRequest with _$LoginRequest {
       _$LoginRequestFromJson(json);
 }
 
-// ── Response: { access_token, token_type } ────────────────
+// ── Response: { access_token, refresh_token, token_type } ─
 
 @freezed
 class AuthResponse with _$AuthResponse {
   const factory AuthResponse({
     required String accessToken,
+    String? refreshToken,
     @Default('bearer') String tokenType,
   }) = _AuthResponse;
 
@@ -49,6 +50,7 @@ class AuthResponse with _$AuthResponse {
 
   static AuthResponse fromSnakeJson(Map<String, dynamic> json) => AuthResponse(
         accessToken: json['access_token'] as String,
+        refreshToken: json['refresh_token'] as String?,
         tokenType: (json['token_type'] as String?) ?? 'bearer',
       );
 }

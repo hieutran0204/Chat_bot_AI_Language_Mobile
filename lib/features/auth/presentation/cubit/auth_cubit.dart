@@ -36,12 +36,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   // ── Login ─────────────────────────────────────────────────
   Future<void> login({
-    required String username,
+    required String email,
     required String password,
   }) async {
     emit(const AuthLoading());
     final result = await _loginUseCase(
-      LoginParams(username: username, password: password),
+      LoginParams(email: email, password: password),
     );
     result.fold(
       (failure) => emit(AuthError(failure.message)),

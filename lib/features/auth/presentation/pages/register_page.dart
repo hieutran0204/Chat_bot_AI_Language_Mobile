@@ -133,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           controller: _passwordCtrl,
                           isPassword: true,
                           validator: (v) =>
-                              (v == null || v.length < 6) ? 'Min 6 characters' : null,
+                              (v == null || v.length < 8) ? 'Min 8 characters' : null,
                         ),
                         SizedBox(height: context.h(16)),
                         AuthTextField(

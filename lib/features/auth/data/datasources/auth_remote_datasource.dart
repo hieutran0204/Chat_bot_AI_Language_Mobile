@@ -40,14 +40,9 @@ class AuthRemoteDatasourceImpl implements AuthRemoteDatasource {
   @override
   Future<AuthResponse> login(LoginRequest request) async {
     try {
-      // FastAPI OAuth2PasswordRequestForm requires form-encoded data
       final response = await _dioClient.dio.post(
         ApiConstants.login,
-        data: {
-          'username': request.username,
-          'password': request.password,
-        },
-        options: Options(contentType: Headers.formUrlEncodedContentType),
+        data: request.toJson(),
       );
       return AuthResponse.fromSnakeJson(response.data as Map<String, dynamic>);
     } on DioException catch (e) {

@@ -29,7 +29,10 @@ class AuthRepositoryImpl implements AuthRepository {
       final response = await _remoteDatasource.register(
         RegisterRequest(email: email, username: username, password: password),
       );
-      await _secureStorage.saveAccessToken(response.accessToken);
+      await _secureStorage.saveTokens(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      );
       return Right(_mapToEntity(response));
     } on ServerException catch (e) {
       if (e.statusCode == 422) {
@@ -45,18 +48,24 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, UserEntity>> login({
-    required String username,
+    required String email,
     required String password,
   }) async {
     try {
       final response = await _remoteDatasource.login(
-        LoginRequest(username: username, password: password),
+        LoginRequest(email: email, password: password),
       );
-      await _secureStorage.saveAccessToken(response.accessToken);
+      await _secureStorage.saveTokens(
+        accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
+      );
       return Right(_mapToEntity(response));
     } on AuthException catch (e) {
       return Left(AuthFailure(e.message));
     } on ServerException catch (e) {
+      if (e.statusCode == 422) {
+        return Left(ValidationFailure(e.message, detail: e.detail));
+      }
       return Left(ServerFailure(e.message, statusCode: e.statusCode));
     } on NetworkException catch (e) {
       return Left(NetworkFailure(e.message));
@@ -74,6 +83,7 @@ class AuthRepositoryImpl implements AuthRepository {
   // ── Mapper ──────────────────────────────────────────────
   UserEntity _mapToEntity(AuthResponse response) => UserEntity(
         accessToken: response.accessToken,
+        refreshToken: response.refreshToken,
         tokenType: response.tokenType,
       );
 }
