@@ -38,6 +38,9 @@ dependencies:
   # ── Functional Error Handling ─────────────────────────────
   dartz: ^0.10.1
 
+  # ── Environment Configuration ─────────────────────────────
+  flutter_dotenv: ^5.2.1
+
   # ── UI & Fonts ────────────────────────────────────────────
   google_fonts: ^6.2.1
   cupertino_icons: ^1.0.8
@@ -61,5 +64,6 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/images/
     - assets/icons/

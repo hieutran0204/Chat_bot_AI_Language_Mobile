@@ -149,25 +149,28 @@ flutter doctor
 
 ## 🚀 Hướng dẫn cài đặt & Khởi chạy
 
-### 1. Cấu hình Backend URL
+### 1. Cấu hình Biến Môi trường (.env)
 
-Mở file [`lib/core/constants/api_constants.dart`](file:///e:/Language_AI/Language_AI_Mobile/lib/core/constants/api_constants.dart):
-
-```dart
-class ApiConstants {
-  ApiConstants._();
-
-  // Android Emulator: 10.0.2.2 trỏ về localhost của máy tính host
-  static const String baseUrl = 'http://10.0.2.2:8000';
-
-  // iOS Simulator hoặc Web:
-  // static const String baseUrl = 'http://localhost:8000';
-
-  // Thiết bị thật (chạy cùng mạng Wi-Fi):
-  // static const String baseUrl = 'http://192.168.1.X:8000';
-  ...
-}
+Tạo file `.env` từ file mẫu `.env.example`:
+```bash
+cp .env.example .env
 ```
+*(Trên Windows PowerShell: `Copy-Item .env.example .env`)*
+
+Nội dung cấu hình trong file `.env`:
+```env
+# Backend API Base URL
+# - Android Emulator: http://10.0.2.2:8000
+# - iOS Simulator / Web: http://localhost:8000
+# - Thiết bị thật: http://<IP_LAN_MAY_TINH>:8000
+BASE_URL=http://10.0.2.2:8000
+
+API_VERSION=/api/v1
+CONNECT_TIMEOUT_MS=10000
+RECEIVE_TIMEOUT_MS=30000
+ENVIRONMENT=development
+```
+> **Lưu ý bảo mật:** File `.env` đã được cấu hình trong `.gitignore` để không bao giờ bị lộ lên Git/GitHub. File `.env.example` được commit làm mẫu cho các thành viên trong nhóm.
 
 ### 2. Cài đặt Dependencies
 

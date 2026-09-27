@@ -1,9 +1,10 @@
 // name: main.dart
-// description: App entry point. Initializes DI, checks auth status,
+// description: App entry point. Initializes DI, loads .env variables, checks auth status,
 //              and builds MaterialApp with GoRouter and AuthCubit at root.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:go_router/go_router.dart';
 import 'core/constants/app_theme.dart';
 import 'core/di/injection.dart';
@@ -12,6 +13,11 @@ import 'features/auth/presentation/cubit/auth_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await dotenv.load(fileName: '.env');
+  } catch (e) {
+    debugPrint('Warning: .env file not found or failed to load: $e');
+  }
   await configureDependencies();
   runApp(const LanguageAIApp());
 }
